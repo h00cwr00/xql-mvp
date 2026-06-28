@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>購物車 — 小棲蘭森林農場</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { serif: ['"Noto Serif TC"', 'serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Noto Serif TC', serif; }
+    .qty-btn:hover { transform: scale(1.1); }
+    .qty-btn { transition: transform 0.15s ease; }
+  </style>
+</head>
+<body class="bg-stone-50 text-gray-800">
+
+  <!-- ═══════════════════════════════════════════════
+       全域導覽列
+  ═══════════════════════════════════════════════ -->
+  <header class="sticky top-0 z-50 bg-stone-50 shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+
+      <a href="index.html" class="font-serif text-emerald-900 text-xl font-bold tracking-widest hover:text-emerald-700 transition-colors">
+        🌲 小棲蘭
+      </a>
+
+      <!-- 桌面版 -->
+      <nav class="hidden md:flex items-center gap-6">
+        <a href="events.html" class="text-gray-700 hover:text-emerald-900 font-medium transition-colors">最新活動</a>
+        <a href="shop.html" class="text-gray-700 hover:text-emerald-900 font-medium transition-colors">森林農產</a>
+        <a href="blog.html" class="text-gray-700 hover:text-emerald-900 font-medium transition-colors">日誌</a>
+        <!-- 購物車：Active 狀態 -->
+        <a href="cart.html" class="relative text-emerald-900 text-xl">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span id="cart-badge" class="hidden absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">0</span>
+        </a>
+        <a href="https://www.facebook.com/" target="_blank" class="text-blue-700 text-xl hover:text-blue-900 transition-colors">
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+      </nav>
+
+      <!-- 手機版右側 -->
+      <div class="flex md:hidden items-center gap-4">
+        <a href="cart.html" class="relative text-emerald-900 text-xl">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span id="cart-badge-mobile" class="hidden absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">0</span>
+        </a>
+        <a href="https://www.facebook.com/" target="_blank" class="text-blue-700 text-xl">
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+        <button id="burger-btn" class="text-emerald-900 text-2xl cursor-pointer focus:outline-none" aria-label="開啟選單">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- 手機版下拉選單 -->
+    <div id="mobile-menu" class="hidden md:hidden bg-stone-50 border-t border-stone-200 px-4 py-3 flex flex-col gap-1">
+      <a href="events.html" class="text-gray-700 font-medium py-3 border-b border-stone-100 flex items-center gap-2 hover:text-emerald-900">
+        <i class="fa-solid fa-calendar-days w-5"></i> 最新活動
+      </a>
+      <a href="shop.html" class="text-gray-700 font-medium py-3 border-b border-stone-100 flex items-center gap-2 hover:text-emerald-900">
+        <i class="fa-solid fa-leaf w-5"></i> 森林農產
+      </a>
+      <a href="blog.html" class="text-gray-700 font-medium py-3 flex items-center gap-2 hover:text-emerald-900">
+        <i class="fa-solid fa-book-open w-5"></i> 日誌
+      </a>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════
+       頁面標題
+  ═══════════════════════════════════════════════ -->
+  <section class="bg-stone-100 border-b border-stone-200 py-8 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center gap-3">
+        <i class="fa-solid fa-cart-shopping text-emerald-700 text-2xl"></i>
+        <h1 class="font-serif text-emerald-900 text-2xl md:text-3xl font-bold">我的購物車</h1>
+      </div>
+      <!-- 麵包屑 -->
+      <div class="flex items-center gap-2 text-gray-400 text-sm mt-2">
+        <a href="shop.html" class="hover:text-emerald-700 transition-colors">森林農產</a>
+        <i class="fa-solid fa-chevron-right text-xs"></i>
+        <span class="text-gray-600">購物車</span>
+        <i class="fa-solid fa-chevron-right text-xs"></i>
+        <span class="text-gray-400">結帳</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       主要內容：3 欄 RWD 佈局
+       手機：單欄垂直堆疊
+       桌面：grid-cols-3（商品明細 col-span-2 + 訂單摘要 col-span-1）
+  ═══════════════════════════════════════════════ -->
+  <main class="max-w-6xl mx-auto px-4 py-10">
+    <div class="grid lg:grid-cols-3 gap-8">
+
+      <!-- ── 左側：商品明細列表（col-span-2） ── -->
+      <div class="lg:col-span-2 space-y-4">
+
+        <!-- 商品列表容器 -->
+        <div id="cart-items-container" class="space-y-4">
+
+          <!-- 商品列 1：頂級生鮮猴頭菇 -->
+          <div class="cart-item bg-white rounded-lg shadow p-5 flex flex-col sm:flex-row gap-4 items-start sm:items-center" data-id="1" data-price="580">
+            <img src="https://placehold.co/120x120/1a4a2a/ffffff"
+                 alt="頂級生鮮猴頭菇"
+                 class="w-24 h-24 object-cover rounded-lg flex-shrink-0"
+                 onerror="this.src='https://placehold.co/120x120/1a4a2a/ffffff'">
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-wrap gap-2 mb-1">
+                <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-0.5 rounded-full">🟢 貨到付款</span>
+                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-0.5 rounded-full">🚚 免運</span>
+              </div>
+              <h3 class="font-serif text-gray-800 font-bold text-base md:text-lg">頂級生鮮猴頭菇</h3>
+              <p class="text-gray-400 text-xs mt-0.5">規格：300g / 盒 · 有機認證</p>
+              <p class="text-red-700 font-bold text-lg mt-1">NT$ 580</p>
+            </div>
+            <!-- 數量控制器 + 刪除 -->
+            <div class="flex items-center gap-4 flex-shrink-0">
+              <div class="flex items-center gap-3">
+                <button class="qty-btn minus-btn w-9 h-9 rounded-full border-2 border-emerald-700 text-emerald-700 flex items-center justify-center hover:bg-emerald-700 hover:text-white transition-colors"
+                        onclick="changeQty(1, -1)" aria-label="減少數量">
+                  <i class="fa-solid fa-minus text-xs"></i>
+                </button>
+                <span class="qty-display font-bold text-lg w-8 text-center select-none">1</span>
+                <button class="qty-btn plus-btn w-9 h-9 rounded-full border-2 border-emerald-700 text-emerald-700 flex items-center justify-center hover:bg-emerald-700 hover:text-white transition-colors"
+                        onclick="changeQty(1, 1)" aria-label="增加數量">
+                  <i class="fa-solid fa-plus text-xs"></i>
+                </button>
+              </div>
+              <button class="text-gray-300 hover:text-red-500 transition-colors" onclick="removeItem(1)" aria-label="移除商品">
+                <i class="fa-solid fa-trash text-lg"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- 商品列 2：有機厚切香菇禮盒 -->
+          <div class="cart-item bg-white rounded-lg shadow p-5 flex flex-col sm:flex-row gap-4 items-start sm:items-center" data-id="2" data-price="850">
+            <img src="https://placehold.co/120x120/2d5a3d/ffffff"
+                 alt="有機厚切香菇禮盒"
+                 class="w-24 h-24 object-cover rounded-lg flex-shrink-0"
+                 onerror="this.src='https://placehold.co/120x120/2d5a3d/ffffff'">
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-wrap gap-2 mb-1">
+                <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-0.5 rounded-full">🟢 貨到付款</span>
+                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-0.5 rounded-full">🚚 免運</span>
+              </div>
+              <h3 class="font-serif text-gray-800 font-bold text-base md:text-lg">有機厚切香菇禮盒</h3>
+              <p class="text-gray-400 text-xs mt-0.5">規格：乾燥 150g / 精裝禮盒 · 有機認證</p>
+              <p class="text-red-700 font-bold text-lg mt-1">NT$ 850</p>
+            </div>
+            <div class="flex items-center gap-4 flex-shrink-0">
+              <div class="flex items-center gap-3">
+                <button class="qty-btn minus-btn w-9 h-9 rounded-full border-2 border-emerald-700 text-emerald-700 flex items-center justify-center hover:bg-emerald-700 hover:text-white transition-colors"
+                        onclick="changeQty(2, -1)" aria-label="減少數量">
+                  <i class="fa-solid fa-minus text-xs"></i>
+                </button>
+                <span class="qty-display font-bold text-lg w-8 text-center select-none">1</span>
+                <button class="qty-btn plus-btn w-9 h-9 rounded-full border-2 border-emerald-700 text-emerald-700 flex items-center justify-center hover:bg-emerald-700 hover:text-white transition-colors"
+                        onclick="changeQty(2, 1)" aria-label="增加數量">
+                  <i class="fa-solid fa-plus text-xs"></i>
+                </button>
+              </div>
+              <button class="text-gray-300 hover:text-red-500 transition-colors" onclick="removeItem(2)" aria-label="移除商品">
+                <i class="fa-solid fa-trash text-lg"></i>
+              </button>
+            </div>
+          </div>
+
+        </div><!-- /cart-items-container -->
+
+        <!-- 空購物車提示（預設隱藏） -->
+        <div id="empty-cart" class="hidden bg-white rounded-lg shadow p-12 text-center">
+          <i class="fa-solid fa-cart-shopping text-gray-200 text-6xl mb-4"></i>
+          <p class="text-gray-400 text-lg font-medium mb-4">購物車是空的</p>
+          <a href="shop.html" class="inline-block bg-emerald-700 text-white px-8 py-3 rounded-lg font-bold hover:bg-emerald-900 transition-colors">
+            前往選購農產品 →
+          </a>
+        </div>
+
+        <!-- 繼續購物 -->
+        <div class="pt-2">
+          <a href="shop.html" class="inline-flex items-center gap-2 text-emerald-700 font-medium hover:text-emerald-900 transition-colors text-sm">
+            <i class="fa-solid fa-arrow-left text-xs"></i> 繼續選購
+          </a>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             付款方式選擇
+        ═══════════════════════════════════════════════ -->
+        <div class="bg-white rounded-lg shadow p-6 mt-6">
+          <h2 class="font-serif text-gray-800 text-lg font-bold mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-credit-card text-emerald-700"></i> 付款方式
+          </h2>
+          <div class="space-y-3">
+            <!-- 貨到付款（預設強制預選） -->
+            <label class="flex items-center gap-4 p-4 border-2 border-emerald-700 rounded-lg bg-emerald-50 cursor-pointer hover:bg-emerald-100 transition-colors">
+              <input type="radio" name="payment" value="cod" checked class="accent-emerald-700 w-4 h-4 flex-shrink-0">
+              <div class="flex items-center gap-3 flex-1">
+                <i class="fa-solid fa-money-bill-wave text-emerald-700 text-xl"></i>
+                <div>
+                  <p class="font-bold text-emerald-900">貨到付款</p>
+                  <p class="text-emerald-700 text-xs">免手續費 · 收到貨再付款，零風險購物</p>
+                </div>
+              </div>
+              <span class="bg-emerald-700 text-white text-xs px-2 py-1 rounded-full font-bold flex-shrink-0">推薦</span>
+            </label>
+
+            <!-- 線上刷卡（disabled 預留 WooCommerce Hook） -->
+            <label class="flex items-center gap-4 p-4 border border-gray-200 rounded-lg opacity-50 cursor-not-allowed bg-gray-50">
+              <input type="radio" name="payment" value="card" disabled class="w-4 h-4 flex-shrink-0">
+              <div class="flex items-center gap-3 flex-1">
+                <div class="flex gap-2">
+                  <i class="fa-brands fa-cc-visa text-2xl text-blue-800"></i>
+                  <i class="fa-brands fa-cc-mastercard text-2xl text-red-600"></i>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-500">線上刷卡</p>
+                  <p class="text-gray-400 text-xs">線上刷卡機制建置中</p>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             收件資訊
+        ═══════════════════════════════════════════════ -->
+        <div class="bg-white rounded-lg shadow p-6">
+          <h2 class="font-serif text-gray-800 text-lg font-bold mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-location-dot text-emerald-700"></i> 收件資訊
+          </h2>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-gray-600 text-sm font-medium mb-1">收件人姓名 *</label>
+              <input type="text" placeholder="請輸入姓名"
+                     class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent">
+            </div>
+            <div>
+              <label class="block text-gray-600 text-sm font-medium mb-1">聯絡電話 *</label>
+              <input type="tel" placeholder="09XX-XXX-XXX"
+                     class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-gray-600 text-sm font-medium mb-1">收件地址 *</label>
+              <input type="text" placeholder="請輸入完整收件地址"
+                     class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-gray-600 text-sm font-medium mb-1">備註（選填）</label>
+              <textarea placeholder="如有特殊需求請在此說明" rows="2"
+                        class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent resize-none"></textarea>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /左側 -->
+
+      <!-- ── 右側：訂單摘要 + 結帳（col-span-1） ── -->
+      <div class="lg:col-span-1">
+        <div class="sticky top-24 space-y-4">
+
+          <!-- 訂單摘要卡片 -->
+          <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="font-serif text-gray-800 text-lg font-bold mb-5 flex items-center gap-2">
+              <i class="fa-solid fa-receipt text-emerald-700"></i> 訂單摘要
+            </h2>
+
+            <!-- 明細 -->
+            <div class="space-y-3 mb-5" id="order-summary">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-600">頂級生鮮猴頭菇 × <span class="qty-1">1</span></span>
+                <span class="font-medium" id="subtotal-1">NT$ 580</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-600">有機厚切香菇禮盒 × <span class="qty-2">1</span></span>
+                <span class="font-medium" id="subtotal-2">NT$ 850</span>
+              </div>
+            </div>
+
+            <div class="border-t border-stone-100 pt-4 space-y-2">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">商品小計</span>
+                <span id="items-total" class="font-medium">NT$ 1,430</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">運費</span>
+                <span class="text-emerald-700 font-bold">免費 🎉</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">付款手續費</span>
+                <span class="text-emerald-700 font-bold">免費</span>
+              </div>
+            </div>
+
+            <div class="border-t border-stone-200 mt-4 pt-4 flex justify-between items-center">
+              <span class="font-serif font-bold text-gray-800 text-lg">訂單總計</span>
+              <span id="grand-total" class="font-bold text-red-700 text-2xl">NT$ 1,430</span>
+            </div>
+
+            <!-- 結帳按鈕 -->
+            <button onclick="checkout()"
+                    class="w-full mt-5 bg-emerald-700 text-white py-4 rounded-lg font-bold text-lg hover:bg-emerald-900 transition-colors flex items-center justify-center gap-2 shadow-lg">
+              <i class="fa-solid fa-lock text-sm"></i> 確認結帳
+            </button>
+
+            <p class="text-center text-gray-400 text-xs mt-3">
+              <i class="fa-solid fa-shield-halved mr-1 text-emerald-600"></i>
+              安全加密 · 貨到付款 · 零風險購物
+            </p>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════
+               信任徽章區塊（降低棄單率）
+          ═══════════════════════════════════════════════ -->
+          <div class="bg-white rounded-lg shadow p-5 space-y-4">
+            <h3 class="font-bold text-gray-700 text-sm uppercase tracking-wider mb-3">購物保障</h3>
+
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-certificate text-emerald-700"></i>
+              </div>
+              <div>
+                <p class="font-bold text-gray-800 text-sm">有機認證農場</p>
+                <p class="text-gray-500 text-xs">通過農委會有機農產品認證，無農藥、無化肥</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-truck-fast text-amber-600"></i>
+              </div>
+              <div>
+                <p class="font-bold text-gray-800 text-sm">24 小時快速出貨</p>
+                <p class="text-gray-500 text-xs">下午 3 點前訂購，當日出貨，隔日送達</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-headset text-blue-600"></i>
+              </div>
+              <div>
+                <p class="font-bold text-gray-800 text-sm">農場主人親自客服</p>
+                <p class="text-gray-500 text-xs">任何問題 24 小時內必回應，不是機器人</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-rotate-left text-red-600"></i>
+              </div>
+              <div>
+                <p class="font-bold text-gray-800 text-sm">到貨不滿意全額退款</p>
+                <p class="text-gray-500 text-xs">收到貨 48 小時內，品質問題無條件退換</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 支付閘道預留 Hook -->
+          <div class="bg-white rounded-lg shadow p-4">
+            <p class="text-gray-400 text-xs text-center mb-3">未來支援線上刷卡</p>
+            <div class="flex justify-center items-center gap-4 opacity-40">
+              <i class="fa-brands fa-cc-visa text-3xl text-blue-800"></i>
+              <i class="fa-brands fa-cc-mastercard text-3xl text-red-600"></i>
+              <i class="fa-brands fa-cc-jcb text-3xl text-blue-600"></i>
+            </div>
+            <p class="text-gray-300 text-xs text-center mt-2">線上刷卡機制建置中</p>
+          </div>
+
+        </div><!-- /sticky -->
+      </div><!-- /右側 -->
+
+    </div><!-- /grid -->
+  </main>
+
+  <!-- ═══════════════════════════════════════════════
+       結帳成功 Modal
+  ═══════════════════════════════════════════════ -->
+  <div id="checkout-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+    <div class="bg-white rounded-xl shadow-2xl p-8 max-w-sm w-full text-center">
+      <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i class="fa-solid fa-check text-emerald-700 text-3xl"></i>
+      </div>
+      <h2 class="font-serif text-emerald-900 text-2xl font-bold mb-2">訂單已送出！</h2>
+      <p class="text-gray-600 text-sm mb-2">感謝您的購買，農場主人建安將親自為您備貨。</p>
+      <p class="text-gray-500 text-xs mb-6">預計 24 小時內出貨，隔日送達。如有問題請撥打 03-XXX-XXXX</p>
+      <a href="shop.html"
+         class="block w-full bg-emerald-700 text-white py-3 rounded-lg font-bold hover:bg-emerald-900 transition-colors">
+        繼續選購 →
+      </a>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       Footer
+  ═══════════════════════════════════════════════ -->
+  <footer class="bg-emerald-900 text-white mt-16 py-10">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <p class="font-serif text-2xl font-bold tracking-widest mb-2">🌲 小棲蘭森林農場</p>
+      <p class="text-emerald-300 text-sm mb-4">新北市三峽區 · 有機認證農場</p>
+      <div class="flex justify-center gap-6 mb-6">
+        <a href="events.html" class="text-emerald-300 hover:text-white text-sm transition-colors">最新活動</a>
+        <a href="shop.html" class="text-emerald-300 hover:text-white text-sm transition-colors">森林農產</a>
+        <a href="blog.html" class="text-emerald-300 hover:text-white text-sm transition-colors">日誌</a>
+        <a href="cart.html" class="text-emerald-300 hover:text-white text-sm transition-colors">購物車</a>
+      </div>
+      <p class="text-emerald-500 text-xs">© 2026 小棲蘭森林農場 版權所有</p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════
+       Vanilla ES6 JavaScript
+       1. 漢堡選單切換
+       2. 購物車數量控制器
+       3. 訂單總計即時計算
+       4. 結帳 Modal
+  ═══════════════════════════════════════════════ -->
+  <script>
+    // ── 1. 漢堡選單切換 ──────────────────────────────
+    const burgerBtn = document.getElementById('burger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    burgerBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // ── 2. 購物車商品資料 ─────────────────────────────
+    const cartData = {
+      1: { name: '頂級生鮮猴頭菇', price: 580, qty: 1 },
+      2: { name: '有機厚切香菇禮盒', price: 850, qty: 1 }
+    };
+
+    // ── 3. 數量控制器 ─────────────────────────────────
+    function changeQty(itemId, delta) {
+      const item = cartData[itemId];
+      if (!item) return;
+
+      item.qty = Math.max(1, item.qty + delta); // 最小數量為 1
+
+      // 更新 DOM：數量顯示
+      const itemEl = document.querySelector(`.cart-item[data-id="${itemId}"]`);
+      if (itemEl) {
+        itemEl.querySelector('.qty-display').textContent = item.qty;
+      }
+
+      // 更新訂單摘要
+      updateOrderSummary();
+    }
+
+    // ── 4. 移除商品 ───────────────────────────────────
+    function removeItem(itemId) {
+      delete cartData[itemId];
+      const itemEl = document.querySelector(`.cart-item[data-id="${itemId}"]`);
+      if (itemEl) {
+        itemEl.style.opacity = '0';
+        itemEl.style.transform = 'translateX(20px)';
+        itemEl.style.transition = 'all 0.3s ease';
+        setTimeout(() => {
+          itemEl.remove();
+          updateOrderSummary();
+          checkEmptyCart();
+        }, 300);
+      }
+    }
+
+    // ── 5. 空購物車檢查 ───────────────────────────────
+    function checkEmptyCart() {
+      const remaining = Object.keys(cartData).length;
+      if (remaining === 0) {
+        document.getElementById('empty-cart').classList.remove('hidden');
+        document.getElementById('cart-items-container').classList.add('hidden');
+      }
+    }
+
+    // ── 6. 訂單總計即時計算 ───────────────────────────
+    function updateOrderSummary() {
+      let total = 0;
+      Object.entries(cartData).forEach(([id, item]) => {
+        const subtotal = item.price * item.qty;
+        total += subtotal;
+
+        // 更新摘要欄位
+        const subtotalEl = document.getElementById(`subtotal-${id}`);
+        const qtyEl = document.querySelector(`.qty-${id}`);
+        if (subtotalEl) subtotalEl.textContent = `NT$ ${subtotal.toLocaleString()}`;
+        if (qtyEl) qtyEl.textContent = item.qty;
+      });
+
+      // 更新總計
+      const itemsTotalEl = document.getElementById('items-total');
+      const grandTotalEl = document.getElementById('grand-total');
+      if (itemsTotalEl) itemsTotalEl.textContent = `NT$ ${total.toLocaleString()}`;
+      if (grandTotalEl) grandTotalEl.textContent = `NT$ ${total.toLocaleString()}`;
+
+      // 更新 Badge
+      const totalQty = Object.values(cartData).reduce((sum, item) => sum + item.qty, 0);
+      updateBadge(totalQty);
+    }
+
+    // ── 7. Badge 更新 ─────────────────────────────────
+    function updateBadge(count) {
+      const badge = document.getElementById('cart-badge');
+      const badgeMobile = document.getElementById('cart-badge-mobile');
+      if (count > 0) {
+        badge.textContent = count;
+        badge.classList.remove('hidden');
+        badgeMobile.textContent = count;
+        badgeMobile.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+        badgeMobile.classList.add('hidden');
+      }
+      sessionStorage.setItem('cartCount', count);
+    }
+
+    // ── 8. 結帳 Modal ─────────────────────────────────
+    function checkout() {
+      const modal = document.getElementById('checkout-modal');
+      modal.classList.remove('hidden');
+      // 清空購物車 session
+      sessionStorage.removeItem('cartCount');
+      sessionStorage.removeItem('cartItems');
+    }
+
+    // 點擊 Modal 背景關閉
+    document.getElementById('checkout-modal').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.add('hidden');
+    });
+
+    // ── 9. 頁面載入初始化 ─────────────────────────────
+    window.addEventListener('DOMContentLoaded', () => {
+      updateOrderSummary();
+    });
+  </script>
+
+</body>
+</html>

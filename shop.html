@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>森林農產 — 小棲蘭森林農場</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { serif: ['"Noto Serif TC"', 'serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Noto Serif TC', serif; }
+    .badge-bounce { animation: badgeBounce 0.3s ease; }
+    @keyframes badgeBounce {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.4); }
+      100% { transform: scale(1); }
+    }
+    .add-btn-flash { animation: btnFlash 0.4s ease; }
+    @keyframes btnFlash {
+      0%   { background-color: #065f46; }
+      50%  { background-color: #d97706; }
+      100% { background-color: #065f46; }
+    }
+  </style>
+</head>
+<body class="bg-stone-50 text-gray-800">
+
+  <!-- ═══════════════════════════════════════════════
+       全域導覽列
+  ═══════════════════════════════════════════════ -->
+  <header class="sticky top-0 z-50 bg-stone-50 shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+
+      <a href="index.html" class="font-serif text-emerald-900 text-xl font-bold tracking-widest hover:text-emerald-700 transition-colors">
+        🌲 小棲蘭
+      </a>
+
+      <!-- 桌面版 -->
+      <nav class="hidden md:flex items-center gap-6">
+        <a href="events.html" class="text-gray-700 hover:text-emerald-900 font-medium transition-colors">最新活動</a>
+        <!-- 森林農產：Active 狀態 -->
+        <a href="shop.html" class="text-emerald-900 font-bold border-b-2 border-emerald-900 pb-0.5 transition-colors">森林農產</a>
+        <a href="blog.html" class="text-gray-700 hover:text-emerald-900 font-medium transition-colors">日誌</a>
+        <a href="cart.html" class="relative text-emerald-900 text-xl hover:text-emerald-700 transition-colors">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span id="cart-badge" class="hidden absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">0</span>
+        </a>
+        <a href="https://www.facebook.com/" target="_blank" class="text-blue-700 text-xl hover:text-blue-900 transition-colors">
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+      </nav>
+
+      <!-- 手機版右側 -->
+      <div class="flex md:hidden items-center gap-4">
+        <a href="cart.html" class="relative text-emerald-900 text-xl">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span id="cart-badge-mobile" class="hidden absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">0</span>
+        </a>
+        <a href="https://www.facebook.com/" target="_blank" class="text-blue-700 text-xl">
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+        <button id="burger-btn" class="text-emerald-900 text-2xl cursor-pointer focus:outline-none" aria-label="開啟選單">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- 手機版下拉選單 -->
+    <div id="mobile-menu" class="hidden md:hidden bg-stone-50 border-t border-stone-200 px-4 py-3 flex flex-col gap-1">
+      <a href="events.html" class="text-gray-700 font-medium py-3 border-b border-stone-100 flex items-center gap-2 hover:text-emerald-900">
+        <i class="fa-solid fa-calendar-days w-5"></i> 最新活動
+      </a>
+      <a href="shop.html" class="text-emerald-900 font-bold py-3 border-b border-stone-100 flex items-center gap-2">
+        <i class="fa-solid fa-leaf w-5"></i> 森林農產
+      </a>
+      <a href="blog.html" class="text-gray-700 font-medium py-3 flex items-center gap-2 hover:text-emerald-900">
+        <i class="fa-solid fa-book-open w-5"></i> 日誌
+      </a>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════
+       頁面標題區
+  ═══════════════════════════════════════════════ -->
+  <section class="bg-emerald-900 text-white py-14 px-4">
+    <div class="max-w-6xl mx-auto text-center">
+      <h1 class="font-serif text-3xl md:text-5xl font-bold mb-4 tracking-wide">🌿 森林農產精選</h1>
+      <p class="text-emerald-200 text-base md:text-lg max-w-2xl mx-auto">
+        來自宜蘭深山的有機珍寶，無農藥、無化肥，從農場直送您的餐桌
+      </p>
+      <!-- 全館免運橫幅 -->
+      <div class="mt-6 inline-flex items-center gap-3 bg-amber-500 text-white px-6 py-3 rounded-full font-bold text-sm md:text-base shadow-lg">
+        <i class="fa-solid fa-truck-fast"></i>
+        全館免運中 · 貨到付款免手續費
+        <i class="fa-solid fa-truck-fast"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       商品列表（B2C 專屬，3 件核心商品）
+  ═══════════════════════════════════════════════ -->
+  <main class="max-w-6xl mx-auto px-4 py-12">
+
+    <!-- 加入購物車成功提示（Toast） -->
+    <div id="toast" class="fixed top-20 right-4 z-50 bg-emerald-700 text-white px-5 py-3 rounded-lg shadow-xl font-medium text-sm hidden transition-all">
+      <i class="fa-solid fa-check-circle mr-2"></i>已加入購物車！
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <!-- ── 商品卡片 1：頂級猴頭菇 ── -->
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow">
+        <div class="relative">
+          <img src="https://placehold.co/600x420/1a4a2a/ffffff"
+               alt="頂級猴頭菇"
+               class="w-full h-64 object-cover"
+               onerror="this.src='https://placehold.co/600x420/1a4a2a/ffffff'">
+          <!-- 有機認證標章 -->
+          <div class="absolute top-3 right-3 bg-white rounded-full p-2 shadow-md">
+            <span class="text-emerald-700 text-xs font-bold">有機認證</span>
+          </div>
+          <!-- 熱銷標籤 -->
+          <span class="absolute top-3 left-3 bg-red-700 text-white text-xs font-bold px-3 py-1 rounded-full">🔥 熱銷第一</span>
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <!-- 高信任徽章 -->
+          <div class="flex flex-wrap gap-2 mb-3">
+            <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+              🟢 支援貨到付款
+            </span>
+            <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+              🚚 全館免運中
+            </span>
+          </div>
+          <h3 class="font-serif text-gray-800 text-xl font-bold mb-1">頂級生鮮猴頭菇</h3>
+          <p class="text-gray-500 text-xs mb-3">規格：300g / 盒 · 產地：宜蘭大同鄉</p>
+          <p class="text-gray-600 text-sm leading-relaxed mb-4 flex-1">
+            小棲蘭農場明星商品。採用純天然木屑培育，肉質鮮嫩飽滿，富含多醣體與神經生長因子，
+            是護腦養生的頂級食材。每日現採現出貨，保證最高鮮度。
+          </p>
+          <!-- 評價 -->
+          <div class="flex items-center gap-1 mb-3">
+            <i class="fa-solid fa-star text-amber-400 text-sm"></i>
+            <i class="fa-solid fa-star text-amber-400 text-sm"></i>
+            <i class="fa-solid fa-star text-amber-400 text-sm"></i>
+            <i class="fa-solid fa-star text-amber-400 text-sm"></i>
+            <i class="fa-solid fa-star text-amber-400 text-sm"></i>
+            <span class="text-gray-500 text-xs ml-1">4.9（128 則評價）</span>
+          </div>
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <span class="text-gray-400 text-sm line-through">NT$ 680</span>
+              <span class="text-red-700 text-2xl font-bold ml-2">NT$ 580</span>
+            </div>
+            <span class="bg-red-100 text-red-700 text-xs font-bold px-2 py-1 rounded">省 NT$100</span>
+          </div>
+          <button onclick="addToCart('頂級生鮮猴頭菇', 580)"
+                  class="w-full bg-emerald-700 text-white py-3 rounded-lg font-bold hover:bg-emerald-900 transition-colors flex items-center justify-center gap-2">
+            <i class="fa-solid fa-cart-plus"></i>加入購物車
+          </button>
+        </div>
+      </div>
+
+      <!-- ── 商品卡片 2：有機香菇禮盒 ── -->
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow">
+        <div class="relative">
+          <img src="https://placehold.co/600x420/2d5a3d/ffffff"
+               alt="有機香菇禮盒"
+               class="w-full h-64 object-cover"
+               onerror="this.src='https://placehold.co/600x420/2d5a3d/ffffff'">
+          <div class="absolute top-3 right-3 bg-white rounded-full p-2 shadow-md">
+            <span class="text-emerald-700 text-xs font-bold">有機認證</span>
+          </div>
+          <span class="absolute top-3 left-3 bg-amber-600 text-white text-xs font-bold px-3 py-1 rounded-full">🎁 送禮首選</span>
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <div class="flex flex-wrap gap-2 mb-3">
+            <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+              🟢 支援貨到付款
+            </span>
+            <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+              🚚 全館免運中
+            </span>
+          </div>
+          <h3 class="font-serif text-gray-800 text-xl font-bold mb-1">有機厚切香菇禮盒</h3>
+          <p class="text-gray-500 text-xs mb-3">規格：乾燥 150g / 精裝禮盒 · 產地：宜蘭大同鄉</p>
+          <p class="text-gray-600 text-sm leading-relaxed mb-4 flex-1">
+            精選農場最肥厚的花菇，以低溫慢烘工法保留完整香氣與營養。
+            精美禮盒包裝，附農場手寫感謝卡，是年節送禮、探病慰問的最佳選擇。
+          </p>
+          <div class="flex items-center gap-1 mb-3">
+            <i class="fa-solid fa-star text-amber-400 text-sm"></i>
+            <i class="fa-solid fa-star text-amber-400 text-sm"></i>
+            <i class="fa-solid fa-star text-amber-400 text-sm"></i>
+            <i class="fa-solid fa-star text-amber-400 text-sm"></i>
+            <i class="fa-solid fa-star-half-stroke text-amber-400 text-sm"></i>
+            <span class="text-gray-500 text-xs ml-1">4.7（86 則評價）</span>
+          </div>
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <span class="text-gray-400 text-sm line-through">NT$ 980</span>
+              <span class="text-red-700 text-2xl font-bold ml-2">NT$ 850</span>
+            </div>
+            <span class="bg-red-100 text-red-700 text-xs font-bold px-2 py-1 rounded">省 NT$130</span>
+          </div>
+          <button onclick="addToCart('有機厚切香菇禮盒', 850)"
+                  class="w-full bg-emerald-700 text-white py-3 rounded-lg font-bold hover:bg-emerald-900 transition-colors flex items-center justify-center gap-2">
+            <i class="fa-solid fa-cart-plus"></i>加入購物車
+          </button>
+        </div>
+      </div>
+
+      <!-- ── 商品卡片 3：森林菇類組合禮盒 ── -->
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow sm:col-span-2 lg:col-span-1">
+        <div class="relative">
+          <img src="https://placehold.co/600x420/3d6b4f/ffffff"
+               alt="森林菇類組合禮盒"
+               class="w-full h-64 object-cover"
+               onerror="this.src='https://placehold.co/600x420/3d6b4f/ffffff'">
+          <div class="absolute top-3 right-3 bg-white rounded-full p-2 shadow-md">
+            <span class="text-emerald-700 text-xs font-bold">有機認證</span>
+          </div>
+          <span class="absolute top-3 left-3 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full">⭐ 超值組合</span>
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <div class="flex flex-wrap gap-2 mb-3">
+            <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+              🟢 支援貨到付款
+            </span>
+            <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+              🚚 全館免運中
+            </span>
+          </div>
+          <h3 class="font-serif text-gray-800 text-xl font-bold mb-1">森林菇類超值組合禮盒</h3>
+          <p class="text-gray-500 text-xs mb-3">規格：猴頭菇 + 香菇 + 木耳 三合一 · 產地：宜蘭大同鄉</p>
+          <p class="text-gray-600 text-sm leading-relaxed mb-4 flex-1">
+            農場最受歡迎的超值組合！包含生鮮猴頭菇 200g、乾燥香菇 100g、黑木耳 100g，
+            三種珍貴菇類一次滿足，適合家庭日常養生或送禮兩用。
+          </p>
+          <div class="flex items-center gap-1 mb-3">
+            <i class="fa-solid fa-star text-amber-400 text-sm"></i>
+            <i class="fa-solid fa-star text-amber-400 text-sm"></i>
+            <i class="fa-solid fa-star text-amber-400 text-sm"></i>
+            <i class="fa-solid fa-star text-amber-400 text-sm"></i>
+            <i class="fa-solid fa-star text-amber-400 text-sm"></i>
+            <span class="text-gray-500 text-xs ml-1">5.0（54 則評價）</span>
+          </div>
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <span class="text-gray-400 text-sm line-through">NT$ 1,580</span>
+              <span class="text-red-700 text-2xl font-bold ml-2">NT$ 1,280</span>
+            </div>
+            <span class="bg-red-100 text-red-700 text-xs font-bold px-2 py-1 rounded">省 NT$300</span>
+          </div>
+          <button onclick="addToCart('森林菇類超值組合禮盒', 1280)"
+                  class="w-full bg-emerald-700 text-white py-3 rounded-lg font-bold hover:bg-emerald-900 transition-colors flex items-center justify-center gap-2">
+            <i class="fa-solid fa-cart-plus"></i>加入購物車
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /grid -->
+
+    <!-- ═══════════════════════════════════════════════
+         信任保證區塊
+    ═══════════════════════════════════════════════ -->
+    <div class="mt-14 grid sm:grid-cols-3 gap-6">
+      <div class="bg-white rounded-lg shadow p-6 text-center">
+        <i class="fa-solid fa-shield-halved text-emerald-700 text-3xl mb-3"></i>
+        <h4 class="font-bold text-gray-800 mb-2">有機認證保證</h4>
+        <p class="text-gray-500 text-sm">通過農委會有機農產品認證，無農藥、無化肥，安心食用</p>
+      </div>
+      <div class="bg-white rounded-lg shadow p-6 text-center">
+        <i class="fa-solid fa-truck-fast text-emerald-700 text-3xl mb-3"></i>
+        <h4 class="font-bold text-gray-800 mb-2">24 小時快速出貨</h4>
+        <p class="text-gray-500 text-sm">週一至週五下午 3 點前訂購，當日出貨，隔日送達</p>
+      </div>
+      <div class="bg-white rounded-lg shadow p-6 text-center">
+        <i class="fa-solid fa-headset text-emerald-700 text-3xl mb-3"></i>
+        <h4 class="font-bold text-gray-800 mb-2">專屬客服支援</h4>
+        <p class="text-gray-500 text-sm">農場主人親自回覆，任何問題 24 小時內必回應</p>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         支付閘道預留 Hook（Future WooCommerce）
+    ═══════════════════════════════════════════════ -->
+    <div class="mt-10 bg-white rounded-lg shadow p-6">
+      <h3 class="font-bold text-gray-700 mb-4 text-sm uppercase tracking-wider">支付方式</h3>
+      <div class="flex flex-wrap items-center gap-6">
+        <!-- 貨到付款（啟用） -->
+        <div class="flex items-center gap-2 bg-emerald-50 border border-emerald-300 rounded-lg px-4 py-3">
+          <i class="fa-solid fa-money-bill-wave text-emerald-700 text-xl"></i>
+          <div>
+            <p class="font-bold text-emerald-900 text-sm">貨到付款</p>
+            <p class="text-emerald-700 text-xs">免手續費 · 收到貨再付款</p>
+          </div>
+          <span class="ml-2 bg-emerald-700 text-white text-xs px-2 py-0.5 rounded-full">可用</span>
+        </div>
+        <!-- 線上刷卡（預留 Hook，disabled） -->
+        <div class="flex items-center gap-3 opacity-40 cursor-not-allowed select-none">
+          <i class="fa-brands fa-cc-visa text-4xl text-blue-800"></i>
+          <i class="fa-brands fa-cc-mastercard text-4xl text-red-600"></i>
+          <div>
+            <p class="text-gray-500 text-sm font-medium">線上刷卡</p>
+            <p class="text-gray-400 text-xs">線上刷卡機制建置中</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════
+       Footer
+  ═══════════════════════════════════════════════ -->
+  <footer class="bg-emerald-900 text-white mt-16 py-10">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <p class="font-serif text-2xl font-bold tracking-widest mb-2">🌲 小棲蘭森林農場</p>
+      <p class="text-emerald-300 text-sm mb-4">新北市三峽區 · 有機認證農場</p>
+      <div class="flex justify-center gap-6 mb-6">
+        <a href="events.html" class="text-emerald-300 hover:text-white text-sm transition-colors">最新活動</a>
+        <a href="shop.html" class="text-emerald-300 hover:text-white text-sm transition-colors">森林農產</a>
+        <a href="blog.html" class="text-emerald-300 hover:text-white text-sm transition-colors">日誌</a>
+        <a href="cart.html" class="text-emerald-300 hover:text-white text-sm transition-colors">購物車</a>
+      </div>
+	  <!-- 支付閘道 Footer Hook -->
+      <div class="flex justify-center items-center gap-4 mb-4 opacity-40">
+        <i class="fa-brands fa-cc-visa text-3xl text-white"></i>
+        <i class="fa-brands fa-cc-mastercard text-3xl text-white"></i>
+        <span class="text-white/60 text-xs">線上刷卡機制建置中</span>
+      </div>
+      <p class="text-emerald-500 text-xs">© 2026 小棲蘭森林農場 版權所有</p>
+    </div>
+  
+  <!-- ═══════════════════════════════════════════════
+       Vanilla ES6 JavaScript
+       1. 漢堡選單切換
+       2. 購物車 Badge 計數器（解耦設計，WooCommerce 可直接替換）
+  ═══════════════════════════════════════════════ -->
+  <script>
+    // ── 1. 漢堡選單切換 ──────────────────────────────
+    const burgerBtn = document.getElementById('burger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    burgerBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // ── 2. 購物車 Badge 計數器 ────────────────────────
+    // 解耦設計：WooCommerce 上線後，此函式直接被 wc_add_to_cart_params AJAX 替換
+    let cartCount = 0;
+    const cartItems = []; // 儲存加入的商品（供 cart.html 使用）
+
+    function addToCart(productName, price) {
+      cartCount++;
+
+      // 更新桌面版 Badge
+      const badge = document.getElementById('cart-badge');
+      badge.textContent = cartCount;
+      badge.classList.remove('hidden');
+      badge.classList.add('badge-bounce');
+      setTimeout(() => badge.classList.remove('badge-bounce'), 400);
+
+      // 更新手機版 Badge
+      const badgeMobile = document.getElementById('cart-badge-mobile');
+      badgeMobile.textContent = cartCount;
+      badgeMobile.classList.remove('hidden');
+      badgeMobile.classList.add('badge-bounce');
+      setTimeout(() => badgeMobile.classList.remove('badge-bounce'), 400);
+
+      // 儲存至 sessionStorage（供 cart.html 讀取）
+      cartItems.push({ name: productName, price: price, qty: 1 });
+      sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
+      sessionStorage.setItem('cartCount', cartCount);
+
+      // 顯示 Toast 提示
+      const toast = document.getElementById('toast');
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 2500);
+    }
+
+    // 頁面載入時恢復購物車數量
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedCount = sessionStorage.getItem('cartCount');
+      if (savedCount && parseInt(savedCount) > 0) {
+        cartCount = parseInt(savedCount);
+        const badge = document.getElementById('cart-badge');
+        const badgeMobile = document.getElementById('cart-badge-mobile');
+        badge.textContent = cartCount;
+        badge.classList.remove('hidden');
+        badgeMobile.textContent = cartCount;
+        badgeMobile.classList.remove('hidden');
+      }
+    });
+  </script>
+
+</body>
+</html>

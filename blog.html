@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小棲蘭日誌 — 小棲蘭森林農場</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { serif: ['"Noto Serif TC"', 'serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Noto Serif TC', serif; }
+  </style>
+</head>
+<body class="bg-stone-50 text-gray-800">
+
+  <header class="sticky top-0 z-50 bg-stone-50 shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+
+      <a href="index.html" class="font-serif text-emerald-900 text-xl font-bold tracking-widest hover:text-emerald-700 transition-colors">
+        🌲 小棲蘭
+      </a>
+
+      <nav class="hidden md:flex items-center gap-6">
+        <a href="events.html" class="text-gray-700 hover:text-emerald-900 font-medium transition-colors">最新活動</a>
+        <a href="shop.html" class="text-gray-700 hover:text-emerald-900 font-medium transition-colors">森林農產</a>
+        <a href="blog.html" class="text-emerald-900 font-bold border-b-2 border-emerald-900 pb-0.5 transition-colors">日誌</a>
+        <a href="cart.html" class="relative text-emerald-900 text-xl hover:text-emerald-700 transition-colors">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span id="cart-badge" class="hidden absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">0</span>
+        </a>
+        <a href="https://www.facebook.com/" target="_blank" class="text-blue-700 text-xl hover:text-blue-900 transition-colors">
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+      </nav>
+
+      <div class="flex md:hidden items-center gap-4">
+        <a href="cart.html" class="relative text-emerald-900 text-xl">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span id="cart-badge-mobile" class="hidden absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">0</span>
+        </a>
+        <a href="https://www.facebook.com/" target="_blank" class="text-blue-700 text-xl">
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+        <button id="burger-btn" class="text-emerald-900 text-2xl cursor-pointer focus:outline-none" aria-label="開啟選單">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden bg-stone-50 border-t border-stone-200 px-4 py-3 flex flex-col gap-1">
+      <a href="events.html" class="text-gray-700 font-medium py-3 border-b border-stone-100 flex items-center gap-2 hover:text-emerald-900">
+        <i class="fa-solid fa-calendar-days w-5"></i> 最新活動
+      </a>
+      <a href="shop.html" class="text-gray-700 font-medium py-3 border-b border-stone-100 flex items-center gap-2 hover:text-emerald-900">
+        <i class="fa-solid fa-leaf w-5"></i> 森林農產
+      </a>
+      <a href="blog.html" class="text-emerald-900 font-bold py-3 flex items-center gap-2">
+        <i class="fa-solid fa-book-open w-5"></i> 日誌
+      </a>
+    </div>
+  </header>
+
+  <section class="bg-stone-100 border-b border-stone-200 py-12 px-4">
+    <div class="max-w-6xl mx-auto text-center">
+      <h1 class="font-serif text-emerald-900 text-3xl md:text-5xl font-bold mb-4 tracking-wide">📖 小棲蘭日誌</h1>
+      <p class="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
+        農場的四季故事、料理食譜、生態觀察，以及來自深山的生活哲學
+      </p>
+    </div>
+  </section>
+
+  <main class="max-w-6xl mx-auto px-4 py-12">
+
+    <div class="mb-12">
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden md:flex hover:shadow-xl transition-shadow">
+        <div class="md:w-1/2 relative">
+          <img src="https://placehold.co/800x500/1a4a2a/ffffff"
+               alt="猴頭菇的秘密生長日記"
+               class="w-full h-64 md:h-full object-cover"
+               onerror="this.src='https://placehold.co/800x500/1a4a2a/ffffff'">
+          <span class="absolute top-4 left-4 bg-emerald-700 text-white text-xs font-bold px-3 py-1 rounded-full">📌 精選文章</span>
+        </div>
+        <div class="md:w-1/2 p-8 flex flex-col justify-center">
+          <div class="flex items-center gap-3 text-gray-400 text-xs mb-4">
+            <span class="bg-emerald-100 text-emerald-700 font-bold px-2 py-1 rounded">農場生態</span>
+            <span><i class="fa-regular fa-calendar mr-1"></i>2026.06.15</span>
+            <span><i class="fa-regular fa-clock mr-1"></i>閱讀約 5 分鐘</span>
+          </div>
+          <h2 class="font-serif text-emerald-900 text-2xl md:text-3xl font-bold mb-4 leading-snug">
+            猴頭菇的秘密生長日記：從菌種到餐桌的 30 天旅程
+          </h2>
+          <p class="text-gray-600 text-sm leading-relaxed mb-6">
+            很多人問我，猴頭菇是怎麼長出來的？今天農場主人帶你走進菇菇館，
+            用鏡頭記錄下這顆珍貴菇類從接種、培育到採收的完整 30 天生命旅程。
+            你會發現，每一朵猴頭菇背後，都藏著農人最深的用心與等待。
+          </p>
+          <a href="#article-1" class="inline-flex items-center gap-2 text-emerald-700 font-bold hover:text-emerald-900 transition-colors">
+            繼續閱讀 <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <div id="article-1" class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow">
+        <img src="https://placehold.co/600x380/2d5a3d/ffffff"
+             alt="猴頭菇奶油燉飯食譜"
+             class="w-full h-48 object-cover"
+             onerror="this.src='https://placehold.co/600x380/2d5a3d/ffffff'">
+        <div class="p-6 flex flex-col flex-1">
+          <div class="flex items-center gap-2 text-gray-400 text-xs mb-3">
+            <span class="bg-amber-100 text-amber-700 font-bold px-2 py-0.5 rounded">料理食譜</span>
+            <span>2026.06.10</span>
+          </div>
+          <h3 class="font-serif text-gray-800 text-lg font-bold mb-2 leading-snug">
+            農場主廚親授：猴頭菇奶油燉飯，鮮嫩到讓你忘記肉的存在
+          </h3>
+          <p class="text-gray-500 text-sm leading-relaxed mb-4 flex-1">
+            這道料理只需要 4 種食材，30 分鐘就能完成。猴頭菇的鮮嫩口感配上奶油的香濃，
+            是農場最受歡迎的家常料理，連不吃素的客客人都讚不絕口。
+          </p>
+
+          <div class="w-full aspect-video rounded-lg overflow-hidden shadow-md mb-4">
+            <iframe
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              class="w-full h-full"
+              title="猴頭菇奶油燉飯食譜教學"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+             Pop
+            </iframe>
+          </div>
+
+          <div class="p-4 bg-emerald-50 rounded-lg border border-emerald-200 text-center">
+            <p class="text-gray-600 text-xs mb-2">想在家重現這道料理？</p>
+            <a href="shop.html"
+               class="inline-block bg-red-700 text-white px-5 py-2 rounded-lg font-bold text-sm hover:bg-red-900 transition-colors">
+              採用同款頂級生鮮猴頭菇 ➔
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow">
+        <img src="https://placehold.co/600x380/3d6b4f/ffffff"
+             alt="宜蘭深山的四季變化"
+             class="w-full h-48 object-cover"
+             onerror="this.src='https://placehold.co/600x380/3d6b4f/ffffff'">
+        <div class="p-6 flex flex-col flex-1">
+          <div class="flex items-center gap-2 text-gray-400 text-xs mb-3">
+            <span class="bg-teal-100 text-teal-700 font-bold px-2 py-0.5 rounded">農場生態</span>
+            <span>2026.06.05</span>
+          </div>
+          <h3 class="font-serif text-gray-800 text-lg font-bold mb-2 leading-snug">
+            小棲蘭的四季：春霧、夏雨、秋楓、冬雪，每個季節都是禮物
+          </h3>
+          <p class="text-gray-500 text-sm leading-relaxed mb-4 flex-1">
+            很多人以為農場只有夏天才好玩，但其實小棲蘭的冬天才是最美的季節。
+            當山頭覆上薄薄的白雪，菇菇館裡的溫度卻恆定在 22 度，
+            那種反差感讓每一位訪客都驚嘆不已。
+          </p>
+
+          <div class="w-full aspect-video rounded-lg overflow-hidden shadow-md mb-4">
+            <iframe
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              class="w-full h-full"
+              title="小棲蘭四季農場紀錄片"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
+          </div>
+
+          <a href="#" class="inline-flex items-center gap-2 text-emerald-700 font-bold text-sm hover:text-emerald-900 transition-colors mt-auto">
+            繼續閱讀 <i class="fa-solid fa-arrow-right text-xs"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow">
+        <img src="https://placehold.co/600x380/4a7c5f/ffffff"
+             alt="猴頭菇的養生功效"
+             class="w-full h-48 object-cover"
+             onerror="this.src='https://placehold.co/600x380/4a7c5f/ffffff'">
+        <div class="p-6 flex flex-col flex-1">
+          <div class="flex items-center gap-2 text-gray-400 text-xs mb-3">
+            <span class="bg-emerald-100 text-emerald-700 font-bold px-2 py-0.5 rounded">養生知識</span>
+            <span>2026.05.28</span>
+          </div>
+          <h3 class="font-serif text-gray-800 text-lg font-bold mb-2 leading-snug">
+            科學實證：猴頭菇的 5 大養生功效，護腦、顧胃、增強免疫力
+          </h3>
+          <p class="text-gray-500 text-sm leading-relaxed mb-4 flex-1">
+            猴頭菇被稱為「山珍之王」，不只是因為它的美味，更因為它驚人的保健功效。
+            今天我們整理了最新的科學研究，告訴你為什麼每週吃 2–3 次猴頭菇，
+            對大腦和腸胃健康有顯著幫助。
+          </p>
+
+          <div class="p-4 bg-emerald-50 rounded-lg border border-emerald-200 text-center mt-auto">
+            <p class="text-gray-600 text-xs mb-2">開始你的養生計畫</p>
+            <a href="shop.html"
+               class="inline-block bg-red-700 text-white px-5 py-2 rounded-lg font-bold text-sm hover:bg-red-900 transition-colors">
+              採用同款頂級生鮮猴頭菇 ➔
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow">
+        <img src="https://placehold.co/600x380/1a3a2a/ffffff"
+             alt="農場主人的一天"
+             class="w-full h-48 object-cover"
+             onerror="this.src='https://placehold.co/600x380/1a3a2a/ffffff'">
+        <div class="p-6 flex flex-col flex-1">
+          <div class="flex items-center gap-2 text-gray-400 text-xs mb-3">
+            <span class="bg-stone-200 text-stone-700 font-bold px-2 py-0.5 rounded">農場故事</span>
+            <span>2026.05.20</span>
+          </div>
+          <h3 class="font-serif text-gray-800 text-lg font-bold mb-2 leading-snug">
+            凌晨 4 點的農場：農場主人建安的一天，從黑暗到光明
+          </h3>
+          <p class="text-gray-500 text-sm leading-relaxed mb-4 flex-1">
+            很多人不知道，農場主人每天凌晨 4 點就要起床，
+            在第一道陽光照進菇菇館之前，完成所有的澆水、溫控和品質檢查工作。
+            這篇文章帶你走進農場主人建安的真實一天。
+          </p>
+          <a href="#" class="inline-flex items-center gap-2 text-emerald-700 font-bold text-sm hover:text-emerald-900 transition-colors mt-auto">
+            繼續閱讀 <i class="fa-solid fa-arrow-right text-xs"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow">
+        <img src="https://placehold.co/600x380/2d5a3d/ffffff"
+             alt="孩子的第一堂食農課"
+             class="w-full h-48 object-cover"
+             onerror="this.src='https://placehold.co/600x380/2d5a3d/ffffff'">
+        <div class="p-6 flex flex-col flex-1">
+          <div class="flex items-center gap-2 text-gray-400 text-xs mb-3">
+            <span class="bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded">食農教育</span>
+            <span>2026.05.12</span>
+          </div>
+          <h3 class="font-serif text-gray-800 text-lg font-bold mb-2 leading-snug">
+            孩子的第一堂食農課：當 8 歲的小明第一次親手採摘猴頭菇
+          </h3>
+          <p class="text-gray-500 text-sm leading-relaxed mb-4 flex-1">
+            上週末，一個來自台北的家庭帶著 8 歲的小明來到農場.
+            當小明第一次親手摘下一朵猴頭菇，眼睛裡閃爍的那道光，
+            讓農場主人建安覺得，這一切的努力都值得了。
+          </p>
+
+          <div class="w-full aspect-video rounded-lg overflow-hidden shadow-md mb-4">
+            <iframe
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              class="w-full h-full"
+              title="孩子的食農教育體驗影片"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
+          </div>
+
+          <a href="events.html"
+             class="inline-flex items-center gap-2 bg-emerald-700 text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-emerald-900 transition-colors mt-auto justify-center">
+            <i class="fa-solid fa-calendar-days"></i> 預約親子體驗活動
+          </a>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow">
+        <img src="https://placehold.co/600x380/3d6b4f/ffffff"
+             alt="秋季限定菇類大豐收"
+             class="w-full h-48 object-cover"
+             onerror="this.src='https://placehold.co/600x380/3d6b4f/ffffff'">
+        <div class="p-6 flex flex-col flex-1">
+          <div class="flex items-center gap-2 text-gray-400 text-xs mb-3">
+            <span class="bg-amber-100 text-amber-700 font-bold px-2 py-0.5 rounded">季節限定</span>
+            <span>2026.05.01</span>
+          </div>
+          <h3 class="font-serif text-gray-800 text-lg font-bold mb-2 leading-snug">
+            秋季大豐收！今年猴頭菇產量創新高，品質更是歷年最佳
+          </h3>
+          <p class="text-gray-500 text-sm leading-relaxed mb-4 flex-1">
+            今年秋天的氣候特別適合菇類生長，農場的猴頭菇產量比去年同期增加了 40%，
+            並且每一朵的品質都讓農場主人建安感到驕傲。
+            趁著豐收季節，現在訂購享有最優惠的價格！
+          </p>
+
+          <div class="p-4 bg-amber-50 rounded-lg border border-amber-200 text-center mt-auto">
+            <p class="text-gray-600 text-xs mb-2">🍂 秋季豐收限時優惠</p>
+            <a href="shop.html"
+               class="inline-block bg-red-700 text-white px-5 py-2 rounded-lg font-bold text-sm hover:bg-red-900 transition-colors">
+              採用同款頂級生鮮猴頭菇 ➔
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div></main>
+
+  <footer class="bg-emerald-900 text-white mt-16 py-10">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <p class="font-serif text-2xl font-bold tracking-widest mb-2">🌲 小棲蘭森林農場</p>
+      <p class="text-emerald-300 text-sm mb-4">新北市三峽區 · 有機認證農場</p>
+      <div class="flex justify-center gap-6 mb-6">
+        <a href="events.html" class="text-emerald-300 hover:text-white text-sm transition-colors">最新活動</a>
+        <a href="shop.html" class="text-emerald-300 hover:text-white text-sm transition-colors">森林農產</a>
+        <a href="blog.html" class="text-emerald-300 hover:text-white text-sm transition-colors">日誌</a>
+        <a href="cart.html" class="text-emerald-300 hover:text-white text-sm transition-colors">購物車</a>
+      </div>
+      <p class="text-emerald-500 text-xs">© 2026 小棲蘭森林農場 版權所有</p>
+    </div>
+  </footer>
+
+  <script>
+    // ── 漢堡選單切換 ──────────────────────────────
+    const burgerBtn = document.getElementById('burger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    burgerBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // ── 購物車 Badge 恢復（跨頁持久化） ──────────────
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedCount = sessionStorage.getItem('cartCount');
+      if (savedCount && parseInt(savedCount) > 0) {
+        const count = parseInt(savedCount);
+        const badge = document.getElementById('cart-badge');
+        const badgeMobile = document.getElementById('cart-badge-mobile');
+        badge.textContent = count;
+        badge.classList.remove('hidden');
+        badgeMobile.textContent = count;
+        badgeMobile.classList.remove('hidden');
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>最新活動 — 小棲蘭森林農場</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { serif: ['"Noto Serif TC"', 'serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Noto Serif TC', serif; }
+    .carousel-slide { transition: opacity 0.7s ease-in-out; }
+  </style>
+</head>
+<body class="bg-stone-50 text-gray-800">
+
+  <!-- ═══════════════════════════════════════════════
+       全域導覽列（Golden Navigation Bar）
+       手機：Logo + 🛒 + FB + ☰ 永遠可見
+       桌面：完整文字連結列
+  ═══════════════════════════════════════════════ -->
+  <header class="sticky top-0 z-50 bg-stone-50 shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+
+      <!-- Logo -->
+      <a href="index.html" class="font-serif text-emerald-900 text-xl font-bold tracking-widest hover:text-emerald-700 transition-colors">
+        🌲 小棲蘭
+      </a>
+
+      <!-- 桌面版導覽連結（md 以上顯示） -->
+      <nav class="hidden md:flex items-center gap-6">
+        <!-- 最新活動：Active 狀態 -->
+        <a href="events.html" class="text-emerald-900 font-bold border-b-2 border-emerald-900 pb-0.5 transition-colors">
+          最新活動
+        </a>
+        <a href="shop.html" class="text-gray-700 hover:text-emerald-900 font-medium transition-colors">
+          森林農產
+        </a>
+        <a href="blog.html" class="text-gray-700 hover:text-emerald-900 font-medium transition-colors">
+          日誌
+        </a>
+        <!-- 購物車圖示 + Badge -->
+        <a href="cart.html" class="relative text-emerald-900 text-xl hover:text-emerald-700 transition-colors">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span id="cart-badge" class="hidden absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold transition-transform">0</span>
+        </a>
+        <!-- Facebook 圖示 -->
+        <a href="https://www.facebook.com/" target="_blank" class="text-blue-700 text-xl hover:text-blue-900 transition-colors">
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+      </nav>
+
+      <!-- 手機版右側：🛒 + FB + ☰（永遠可見） -->
+      <div class="flex md:hidden items-center gap-4">
+        <a href="cart.html" class="relative text-emerald-900 text-xl">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span id="cart-badge-mobile" class="hidden absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">0</span>
+        </a>
+        <a href="https://www.facebook.com/" target="_blank" class="text-blue-700 text-xl">
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+        <button id="burger-btn" class="text-emerald-900 text-2xl cursor-pointer focus:outline-none" aria-label="開啟選單">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- 手機版下拉選單（預設隱藏） -->
+    <div id="mobile-menu" class="hidden md:hidden bg-stone-50 border-t border-stone-200 px-4 py-3 flex flex-col gap-1">
+      <a href="events.html" class="text-emerald-900 font-bold py-3 border-b border-stone-100 flex items-center gap-2">
+        <i class="fa-solid fa-calendar-days w-5"></i> 最新活動
+      </a>
+      <a href="shop.html" class="text-gray-700 font-medium py-3 border-b border-stone-100 flex items-center gap-2 hover:text-emerald-900">
+        <i class="fa-solid fa-leaf w-5"></i> 森林農產
+      </a>
+      <a href="blog.html" class="text-gray-700 font-medium py-3 flex items-center gap-2 hover:text-emerald-900">
+        <i class="fa-solid fa-book-open w-5"></i> 日誌
+      </a>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════
+       Hero Carousel Banner
+       純 Tailwind CSS + Vanilla ES6 JS
+       結構對齊 WP Slider 插件（未來可直接替換）
+  ═══════════════════════════════════════════════ -->
+  <section class="w-full">
+    <div id="carousel" class="relative w-full overflow-hidden" style="height: clamp(220px, 45vw, 520px);">
+
+      <!-- Slide 1 -->
+      <div class="carousel-slide absolute inset-0 opacity-0">
+        <img src="assets/images/event-carousel1.JPG"
+             alt="菇菇館深度導覽體驗"
+             class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+          <span class="inline-block bg-emerald-700 text-white text-xs font-bold px-3 py-1 rounded-full mb-3 tracking-wider">限量體驗</span>
+          <h2 class="font-serif text-white text-2xl md:text-4xl font-bold drop-shadow-lg">菇菇館深度導覽體驗</h2>
+          <p class="text-white/80 mt-2 text-sm md:text-base">走進神秘菇菇館，親眼見證猴頭菇的生長奇蹟</p>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="carousel-slide absolute inset-0 opacity-0">
+        <img src="assets/images/event-carousel2.JPG"
+             alt="DIY 森林料理之旅"
+             class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+          <span class="inline-block bg-amber-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-3 tracking-wider">親子同樂</span>
+          <h2 class="font-serif text-white text-2xl md:text-4xl font-bold drop-shadow-lg">DIY 森林料理之旅</h2>
+          <p class="text-white/80 mt-2 text-sm md:text-base">採摘新鮮菇類，現場烹調屬於你的森林美食</p>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="carousel-slide absolute inset-0 opacity-0">
+        <img src="assets/images/event-carousel3.JPG"
+             alt="森林療癒漫步"
+             class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+          <span class="inline-block bg-teal-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-3 tracking-wider">週末限定</span>
+          <h2 class="font-serif text-white text-2xl md:text-4xl font-bold drop-shadow-lg">森林療癒漫步</h2>
+          <p class="text-white/80 mt-2 text-sm md:text-base">在千年森林中放慢腳步，感受大自然的療癒力量</p>
+        </div>
+      </div>
+
+      <!-- 指示點 -->
+      <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+        <button class="carousel-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-colors" aria-label="第1張"></button>
+        <button class="carousel-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-colors" aria-label="第2張"></button>
+        <button class="carousel-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-colors" aria-label="第3張"></button>
+      </div>
+
+      <!-- 左右箭頭 -->
+      <button id="prev-btn" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white w-10 h-10 rounded-full flex items-center justify-center transition-colors z-10">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <button id="next-btn" class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white w-10 h-10 rounded-full flex items-center justify-center transition-colors z-10">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       活動 Grid 區塊
+  ═══════════════════════════════════════════════ -->
+  <main class="max-w-6xl mx-auto px-4 py-12">
+
+    <div class="text-center mb-10">
+      <h1 class="font-serif text-emerald-900 text-3xl md:text-4xl font-bold mb-3">最新農場體驗活動</h1>
+      <p class="text-gray-600 text-base md:text-lg">走進小棲蘭，感受森林的呼吸與大地的溫度</p>
+      <div class="mt-4 w-16 h-1 bg-emerald-700 mx-auto rounded-full"></div>
+    </div>
+
+    <!-- 活動卡片 Grid -->
+    <div class="grid md:grid-cols-2 gap-8">
+
+      <!-- 活動卡片 1：菇菇館深度導覽 -->
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow">
+        <div class="relative">
+          <img src="https://placehold.co/700x400/1a4a2a/ffffff"
+               alt="菇菇館深度導覽"
+               class="w-full h-56 object-cover"
+               onerror="this.src='https://placehold.co/700x400/1a4a2a/ffffff'">
+          <span class="absolute top-4 left-4 bg-red-700 text-white text-xs font-bold px-3 py-1 rounded-full">🔥 熱門活動</span>
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <div class="flex items-center gap-2 text-gray-500 text-sm mb-3">
+            <i class="fa-regular fa-calendar"></i>
+            <span>每週六、日 09:00–12:00</span>
+          </div>
+          <h3 class="font-serif text-emerald-900 text-xl font-bold mb-2">菇菇館深度導覽體驗</h3>
+          <p class="text-gray-600 text-sm leading-relaxed mb-4 flex-1">
+            走進神秘的菇菇館，由專業農場導覽員帶領，親眼見證猴頭菇、香菇、木耳等珍貴菇類的完整生長週期。
+            了解有機栽培的秘密，並可現場採摘帶回家。
+          </p>
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <span class="text-gray-500 text-sm">每人費用</span>
+              <span class="text-red-700 text-xl font-bold ml-2">NT$ 350</span>
+            </div>
+            <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">名額有限</span>
+          </div>
+          <!-- 解耦報名按鈕 → Google Forms -->
+          <a href="https://forms.google.com/" target="_blank" rel="noopener noreferrer"
+             class="inline-block text-center bg-emerald-700 text-white px-6 py-3 rounded-lg font-bold hover:bg-emerald-900 transition-colors">
+            <i class="fa-solid fa-pen-to-square mr-2"></i>立即報名 →
+          </a>
+        </div>
+      </div>
+
+      <!-- 活動卡片 2：DIY 料理之旅 -->
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow">
+        <div class="relative">
+          <img src="https://placehold.co/700x400/2d5a3d/ffffff"
+               alt="DIY 料理之旅"
+               class="w-full h-56 object-cover"
+               onerror="this.src='https://placehold.co/700x400/2d5a3d/ffffff'">
+          <span class="absolute top-4 left-4 bg-amber-600 text-white text-xs font-bold px-3 py-1 rounded-full">👨‍👩‍👧 親子推薦</span>
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <div class="flex items-center gap-2 text-gray-500 text-sm mb-3">
+            <i class="fa-regular fa-calendar"></i>
+            <span>每週日 13:00–16:00</span>
+          </div>
+          <h3 class="font-serif text-emerald-900 text-xl font-bold mb-2">DIY 森林料理之旅</h3>
+          <p class="text-gray-600 text-sm leading-relaxed mb-4 flex-1">
+            親手採摘農場最新鮮的菇類食材，在農場主廚的指導下，烹調出屬於你的森林美食。
+            從田間到餐桌，體驗最純粹的食農教育，適合親子家庭共同參與。
+          </p>
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <span class="text-gray-500 text-sm">每人費用</span>
+              <span class="text-red-700 text-xl font-bold ml-2">NT$ 580</span>
+            </div>
+            <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full">含食材費</span>
+          </div>
+          <a href="https://forms.google.com/" target="_blank" rel="noopener noreferrer"
+             class="inline-block text-center bg-emerald-700 text-white px-6 py-3 rounded-lg font-bold hover:bg-emerald-900 transition-colors">
+            <i class="fa-solid fa-pen-to-square mr-2"></i>立即報名 →
+          </a>
+        </div>
+      </div>
+
+      <!-- 活動卡片 3：森林療癒漫步 -->
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow">
+        <div class="relative">
+          <img src="https://placehold.co/700x400/3d6b4f/ffffff"
+               alt="森林療癒漫步"
+               class="w-full h-56 object-cover"
+               onerror="this.src='https://placehold.co/700x400/3d6b4f/ffffff'">
+          <span class="absolute top-4 left-4 bg-teal-600 text-white text-xs font-bold px-3 py-1 rounded-full">🌿 週末限定</span>
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <div class="flex items-center gap-2 text-gray-500 text-sm mb-3">
+            <i class="fa-regular fa-calendar"></i>
+            <span>每週六 07:00–09:30</span>
+          </div>
+          <h3 class="font-serif text-emerald-900 text-xl font-bold mb-2">森林療癒晨間漫步</h3>
+          <p class="text-gray-600 text-sm leading-relaxed mb-4 flex-1">
+            在清晨薄霧中，跟隨森林療癒師走入千年林間，聆聽鳥鳴、感受芬多精，
+            以正念呼吸法重新連結自然，為繁忙的都市生活充電。
+          </p>
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <span class="text-gray-500 text-sm">每人費用</span>
+              <span class="text-red-700 text-xl font-bold ml-2">NT$ 280</span>
+            </div>
+            <span class="bg-teal-100 text-teal-800 text-xs font-bold px-3 py-1 rounded-full">含早茶</span>
+          </div>
+          <a href="https://forms.google.com/" target="_blank" rel="noopener noreferrer"
+             class="inline-block text-center bg-emerald-700 text-white px-6 py-3 rounded-lg font-bold hover:bg-emerald-900 transition-colors">
+            <i class="fa-solid fa-pen-to-square mr-2"></i>立即報名 →
+          </a>
+        </div>
+      </div>
+
+      <!-- 活動卡片 4：農場採摘體驗 -->
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow">
+        <div class="relative">
+          <img src="https://placehold.co/700x400/4a7c5f/ffffff"
+               alt="農場採摘體驗"
+               class="w-full h-56 object-cover"
+               onerror="this.src='https://placehold.co/700x400/4a7c5f/ffffff'">
+          <span class="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full">🧺 全家同樂</span>
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <div class="flex items-center gap-2 text-gray-500 text-sm mb-3">
+            <i class="fa-regular fa-calendar"></i>
+            <span>每日 10:00–17:00（需預約）</span>
+          </div>
+          <h3 class="font-serif text-emerald-900 text-xl font-bold mb-2">農場鮮菇採摘體驗</h3>
+          <p class="text-gray-600 text-sm leading-relaxed mb-4 flex-1">
+            自己動手採摘最新鮮的有機菇類，農場提供專業採摘工具與指導。
+            採摘的菇類可直接帶回家，或在農場現場料理享用，是最道地的食農體驗。
+          </p>
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <span class="text-gray-500 text-sm">每人費用</span>
+              <span class="text-red-700 text-xl font-bold ml-2">NT$ 200</span>
+            </div>
+            <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">採多少帶多少</span>
+          </div>
+          <a href="https://forms.google.com/" target="_blank" rel="noopener noreferrer"
+             class="inline-block text-center bg-emerald-700 text-white px-6 py-3 rounded-lg font-bold hover:bg-emerald-900 transition-colors">
+            <i class="fa-solid fa-pen-to-square mr-2"></i>立即報名 →
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /grid -->
+
+    <!-- ═══════════════════════════════════════════════
+         注意事項 & 交通資訊
+    ═══════════════════════════════════════════════ -->
+    <div class="mt-16 bg-white rounded-lg shadow-lg p-8">
+      <h2 class="font-serif text-emerald-900 text-2xl font-bold mb-6 flex items-center gap-3">
+        <i class="fa-solid fa-circle-info text-emerald-700"></i>
+        活動注意事項 & 交通資訊
+      </h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- 注意事項 -->
+        <div>
+          <h3 class="font-bold text-gray-800 mb-4 text-lg">📋 報名須知</h3>
+          <ul class="space-y-3 text-gray-600 text-sm">
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-check-circle text-emerald-600 mt-0.5 flex-shrink-0"></i>
+              <span>活動需提前 <strong>3 天</strong>完成線上報名，額滿為止</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-check-circle text-emerald-600 mt-0.5 flex-shrink-0"></i>
+              <span>報名後請於 24 小時內完成匯款，逾時視同放棄</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-check-circle text-emerald-600 mt-0.5 flex-shrink-0"></i>
+              <span>活動前 48 小時可免費取消，之後恕不退款</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-check-circle text-emerald-600 mt-0.5 flex-shrink-0"></i>
+              <span>請穿著輕便服裝及防滑鞋，建議攜帶雨具</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-check-circle text-emerald-600 mt-0.5 flex-shrink-0"></i>
+              <span>12 歲以下兒童需由家長陪同參加</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-check-circle text-emerald-600 mt-0.5 flex-shrink-0"></i>
+              <span>農場為無菸環境，請勿攜帶寵物入場</span>
+            </li>
+          </ul>
+        </div>
+        <!-- 交通資訊 -->
+        <div>
+          <h3 class="font-bold text-gray-800 mb-4 text-lg">🚗 交通資訊</h3>
+          <ul class="space-y-3 text-gray-600 text-sm">
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-location-dot text-red-600 mt-0.5 flex-shrink-0"></i>
+              <span><strong>地址：</strong>新北市三峽區小棲蘭森林農場</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-car text-emerald-600 mt-0.5 flex-shrink-0"></i>
+              <span><strong>自行開車：</strong>國道 3 號三峽交流道下，接台 3 線往110縣道安坑方向，依指標行駛約 30 分鐘</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-bus text-blue-600 mt-0.5 flex-shrink-0"></i>
+              <span><strong>大眾運輸：</strong>搭乘捷運至頂埔站，轉乘計程車或包車服務</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-square-parking text-gray-600 mt-0.5 flex-shrink-0"></i>
+              <span><strong>停車：</strong>農場提供免費停車場</span>
+            </li>
+          </ul>
+          <div class="mt-4 p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+            <p class="text-emerald-800 text-sm font-medium">
+              <i class="fa-solid fa-phone mr-2"></i>
+              活動諮詢專線：<strong>03-XXX-XXXX</strong>（週一至週五 09:00–17:00）
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════
+       Footer
+  ═══════════════════════════════════════════════ -->
+  <footer class="bg-emerald-900 text-white mt-16 py-10">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <p class="font-serif text-2xl font-bold tracking-widest mb-2">🌲 小棲蘭森林農場</p>
+      <p class="text-emerald-300 text-sm mb-4">新北市三峽區 · 有機認證農場</p>
+      <div class="flex justify-center gap-6 mb-6">
+        <a href="events.html" class="text-emerald-300 hover:text-white text-sm transition-colors">最新活動</a>
+        <a href="shop.html" class="text-emerald-300 hover:text-white text-sm transition-colors">森林農產</a>
+        <a href="blog.html" class="text-emerald-300 hover:text-white text-sm transition-colors">日誌</a>
+        <a href="cart.html" class="text-emerald-300 hover:text-white text-sm transition-colors">購物車</a>
+      </div>
+      <p class="text-emerald-500 text-xs">© 2026 小棲蘭森林農場 版權所有</p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════
+       Vanilla ES6 JavaScript
+       1. 漢堡選單切換
+       2. Carousel 輪播控制器
+  ═══════════════════════════════════════════════ -->
+  <script>
+    // ── 1. 漢堡選單切換 ──────────────────────────────
+    const burgerBtn = document.getElementById('burger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    burgerBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // ── 2. Carousel 輪播控制器 ────────────────────────
+    // 完全解耦設計：未來直接移除此 script 區塊，換 WP Slider 插件
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.carousel-dot');
+    let current = 0;
+    let autoPlayTimer = null;
+
+    function goToSlide(index) {
+      // 隱藏當前 slide
+      slides[current].classList.remove('opacity-100');
+      slides[current].classList.add('opacity-0');
+      dots[current].classList.remove('bg-white');
+      dots[current].classList.add('bg-white/50');
+
+      // 計算下一張（循環）
+      current = (index + slides.length) % slides.length;
+
+      // 顯示新 slide
+      slides[current].classList.remove('opacity-0');
+      slides[current].classList.add('opacity-100');
+      dots[current].classList.remove('bg-white/50');
+      dots[current].classList.add('bg-white');
+    }
+
+    function startAutoPlay() {
+      autoPlayTimer = setInterval(() => goToSlide(current + 1), 4000);
+    }
+
+    function resetAutoPlay() {
+      clearInterval(autoPlayTimer);
+      startAutoPlay();
+    }
+
+    // 初始化：顯示第一張
+    goToSlide(0);
+    startAutoPlay();
+
+    // 指示點點擊
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        resetAutoPlay();
+        goToSlide(i);
+      });
+    });
+
+    // 左右箭頭
+    document.getElementById('prev-btn').addEventListener('click', () => {
+      resetAutoPlay();
+      goToSlide(current - 1);
+    });
+    document.getElementById('next-btn').addEventListener('click', () => {
+      resetAutoPlay();
+      goToSlide(current + 1);
+    });
+  </script>
+
+</body>
+</html>

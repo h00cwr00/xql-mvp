@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小棲蘭森林農場</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Noto Serif TC"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html, body { margin: 0; padding: 0; overflow: hidden; height: 100%; }
+  </style>
+</head>
+<body class="m-0 p-0 overflow-hidden">
+  <!-- 全頁可點擊錨點：點擊任意位置跳轉至活動頁 -->
+  <a href="events.html" class="block w-full h-screen cursor-pointer relative select-none">
+
+    <!-- 背景圖：全滿版 object-cover -->
+    <img
+      src="assets/images/home.jpg"
+      alt="小棲蘭森林農場"
+      class="absolute inset-0 w-full h-full object-cover"
+      onerror="this.src='https://placehold.co/1920x1080/1a3a2a/ffffff'"
+    >
+
+    <!-- 輕微暗化遮罩，讓品牌簽名更清晰 -->
+    <div class="absolute inset-0 bg-black/5"></div>
+
+    
+
+    <!-- 底部提示文字 -->
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/70 text-sm tracking-widest animate-pulse z-10">
+      點擊任意處進入
+    </div>
+
+  </a>
+</body>
+</html>
